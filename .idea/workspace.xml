@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33477665-59a5-4d42-aed6-50772bac2ecf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/ERCOT model.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dashboard.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/features.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fetch_data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fetch_grid_data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visualize.py" afterDir="false" />
-    </list>
+    <list default="true" id="33477665-59a5-4d42-aed6-50772bac2ecf" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
