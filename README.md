@@ -1,4 +1,4 @@
-# ERCOT Signal
+# ERCOT model
 
 ML tool I made to predict price spikes in the Texas power grid and generates buy/sell signals for battery storage operators.
 
