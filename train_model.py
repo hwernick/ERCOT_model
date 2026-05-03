@@ -18,6 +18,8 @@ FEATURES = [
     "price_lag_1h", "price_lag_4h", "price_lag_24h",
     "price_roll_mean_4h", "price_roll_mean_24h", "price_roll_std_4h",
     "load_mw", "load_lag_1h", "load_roll_mean_4h",
+    "wind_mw", "wind_lag_1h", "net_load", "wind_pct_of_load",
+    "temp_f", "temp_lag_1h", "temp_roll_mean_4h", "cooling_degrees"
 ]
 
 # add these to features once wind is fixed: "wind_mw", "wind_lag_1h", "net_load"
@@ -70,7 +72,7 @@ spike_model = lgb.LGBMClassifier(
     n_estimators=500,
     learning_rate=0.05,
     num_leaves=31,
-    scale_pos_weight=19,  # spikes are 5% of data so we up-weight them
+    scale_pos_weight=16,  # spikes are 5% of data so we up-weight them
     random_state=42
 )
 

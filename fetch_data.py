@@ -5,7 +5,7 @@ ercot = gridstatus.Ercot()
 
 all_years = []
 
-for year in [2022, 2023, 2024]:
+for year in [2018, 2019, 2020, 2021, 2022, 2023, 2024]:
     print(f"Fetching {year} price data...")
     df = ercot.get_rtm_spp(year=year, verbose=False)
 

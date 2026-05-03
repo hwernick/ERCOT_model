@@ -104,7 +104,9 @@ FEATURES = [
     "hour_sin", "hour_cos",
     "price_lag_1h", "price_lag_4h", "price_lag_24h",
     "price_roll_mean_4h", "price_roll_mean_24h", "price_roll_std_4h",
-    "load_mw", "load_lag_1h", "load_roll_mean_4h"
+    "load_mw", "load_lag_1h", "load_roll_mean_4h",
+    "wind_mw", "wind_lag_1h", "net_load", "wind_pct_of_load",
+    "temp_f", "temp_lag_1h", "temp_roll_mean_4h", "cooling_degrees"
 ]
 
 # --- GENERATE SIGNALS ---
@@ -125,8 +127,27 @@ st.sidebar.markdown("## ⚡ ERCOT SIGNAL")
 st.sidebar.markdown("---")
 
 hub = st.sidebar.selectbox("Hub", ["HB_HOUSTON"])
-days = st.sidebar.slider("Days to display", 7, 90, 30)
+
+import datetime
+
+start_date = st.sidebar.date_input(
+    "Start date",
+    value=datetime.date(2024, 12, 1),
+    min_value=datetime.date(2018, 1, 1),
+    max_value=datetime.date(2024, 12, 31)
+)
+end_date = st.sidebar.date_input(
+    "End date",
+    value=datetime.date(2024, 12, 31),
+    min_value=datetime.date(2018, 1, 1),
+    max_value=datetime.date(2024, 12, 31)
+)
+
+
 spike_threshold = st.sidebar.slider("Sell signal threshold", 0.3, 0.9, 0.5)
+
+
+
 
 df["signal"] = "hold"
 df.loc[df["spike_prob"] > spike_threshold, "signal"] = "sell"
@@ -141,10 +162,10 @@ st.sidebar.markdown("🟢 **BUY** — spike prob < 10%")
 st.sidebar.markdown(f"🔴 **SELL** — spike prob > {int(spike_threshold * 100)}%")
 st.sidebar.markdown("⬜ **HOLD** — between thresholds")
 
-# --- FILTER TO SELECTED WINDOW ---
-latest = df["timestamp"].max()
-cutoff = latest - pd.Timedelta(days=days)
-view = df[df["timestamp"] >= cutoff].copy()
+view = df[
+    (df["timestamp"] >= pd.Timestamp(start_date)) &
+    (df["timestamp"] <= pd.Timestamp(end_date))
+].copy()
 
 # --- HEADER ---
 st.markdown("# ⚡ ERCOT SIGNAL")
