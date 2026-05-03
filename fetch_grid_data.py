@@ -1,3 +1,4 @@
+'''
 import pandas as pd
 
 
@@ -45,3 +46,34 @@ print(f"Date range: {all_load['timestamp'].min()} to {all_load['timestamp'].max(
 
 all_load.to_csv("ercot_all_load.csv", index=False)
 print("Saved to ercot_all_load.csv")
+
+'''
+
+import pandas as pd
+
+def load_wind(filepath):
+    df = pd.read_excel(filepath, sheet_name="Wind Data")
+    df["timestamp"] = pd.to_datetime(df["Time (Hour-Ending)"])
+    df = df[["timestamp", "ERCOT.WIND.GEN"]].rename(columns={
+        "ERCOT.WIND.GEN": "wind_mw"
+    })
+    df = df.dropna(subset=["timestamp"])
+    return df
+
+print("Loading wind data...")
+
+wind_2023 = load_wind("ERCOT_2023_Hourly_WindSolar_Output.xlsx")
+print(f"2023: {len(wind_2023)} rows")
+
+wind_2024 = load_wind("ERCOT_2024_Hourly_WindSolar_Output.xlsx")
+print(f"2024: {len(wind_2024)} rows")
+
+all_wind = pd.concat([wind_2023, wind_2024]).reset_index(drop=True)
+all_wind = all_wind.sort_values("timestamp").reset_index(drop=True)
+
+print(f"\nTotal shape: {all_wind.shape}")
+print(f"Date range: {all_wind['timestamp'].min()} to {all_wind['timestamp'].max()}")
+print(f"Wind range: {all_wind['wind_mw'].min():.0f} MW to {all_wind['wind_mw'].max():.0f} MW")
+
+all_wind.to_csv("ercot_all_wind.csv", index=False)
+print("\nSaved to ercot_all_wind.csv")

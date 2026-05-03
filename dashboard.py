@@ -112,10 +112,13 @@ X = df[FEATURES]
 df["price_forecast"] = price_model.predict(X)
 df["spike_prob"] = spike_model.predict_proba(X)[:, 1]
 
-# Signal logic
+# Signal logic - add a price filter to prevent buying during high prices
 df["signal"] = "hold"
 df.loc[df["spike_prob"] > 0.5, "signal"] = "sell"
-df.loc[df["spike_prob"] < 0.1, "signal"] = "buy"
+df.loc[
+    (df["spike_prob"] < 0.1) & (df["price"] < df["price"].quantile(0.5)),
+    "signal"
+] = "buy"
 
 # --- SIDEBAR ---
 st.sidebar.markdown("## ⚡ ERCOT SIGNAL")
@@ -125,10 +128,12 @@ hub = st.sidebar.selectbox("Hub", ["HB_HOUSTON"])
 days = st.sidebar.slider("Days to display", 7, 90, 30)
 spike_threshold = st.sidebar.slider("Sell signal threshold", 0.3, 0.9, 0.5)
 
-# Update signals based on threshold
 df["signal"] = "hold"
 df.loc[df["spike_prob"] > spike_threshold, "signal"] = "sell"
-df.loc[df["spike_prob"] < 0.1, "signal"] = "buy"
+df.loc[
+    (df["spike_prob"] < 0.1) & (df["price"] < df["price"].quantile(0.5)),
+    "signal"
+] = "buy"
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("**Signal Logic**")

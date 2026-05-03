@@ -19,6 +19,28 @@ df = df.merge(load, on="timestamp_hour", how="left")
 
 print(f"Load merge nulls: {df['load_mw'].isna().sum()}")
 
+
+# only have two years of wind data which is screwing everything up. will return to this later
+'''
+# Load wind data
+wind = pd.read_csv("ercot_all_wind.csv")
+wind["timestamp"] = pd.to_datetime(wind["timestamp"])
+wind = wind.rename(columns={"timestamp": "timestamp_hour"})
+
+# Merge wind - only have 2023/2024 so 2022 rows will be NaN
+df = df.merge(wind, on="timestamp_hour", how="left")
+print(f"Wind merge nulls: {df['wind_mw'].isna().sum()}")
+
+# Only keep rows where we have wind data (2023-2024)
+df = df[df["wind_mw"].notna()].copy()
+print(f"Shape after filtering to wind data years: {df.shape}")
+
+# --- WIND FEATURES ---
+df["wind_mw"] = df["wind_mw"]
+df["wind_lag_1h"] = df["wind_mw"].shift(4)
+df["net_load"] = df["load_mw"] - df["wind_mw"] 
+'''
+
 # --- TIME FEATURES ---
 df["hour"] = df["timestamp"].dt.hour
 df["day_of_week"] = df["timestamp"].dt.dayofweek

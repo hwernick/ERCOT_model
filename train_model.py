@@ -17,8 +17,10 @@ FEATURES = [
     "hour_sin", "hour_cos",
     "price_lag_1h", "price_lag_4h", "price_lag_24h",
     "price_roll_mean_4h", "price_roll_mean_24h", "price_roll_std_4h",
-    "load_mw", "load_lag_1h", "load_roll_mean_4h"
+    "load_mw", "load_lag_1h", "load_roll_mean_4h",
 ]
+
+# add these to features once wind is fixed: "wind_mw", "wind_lag_1h", "net_load"
 
 X = df[FEATURES]
 
